@@ -1,0 +1,87 @@
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+    {
+        "key": "cmd+n cmd+n",
+        "command": "workbench.files.action.createFileFromExplorer"
+    },
+    {
+        "key": "cmd+n",
+        "command": "-workbench.action.files.newUntitledFile"
+    },
+    {
+        "key": "shift+cmd+e",
+        "command": "-aichat.fixerrormessage",
+        "when": "(arbitrary function)"
+    },
+    {
+        "key": "shift+cmd+c",
+        "command": "-workbench.action.terminal.openNativeConsole",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "shift+cmd+c",
+        "command": "workbench.view.extension.claude-dev-ActivityBar"
+    },
+    {
+        "key": "cmd+i",
+        "command": "composerMode.agent"
+    },
+    {
+        "key": "ctrl+shift+w",
+        "command": "workbench.action.switchWindow"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "-workbench.action.switchWindow"
+    },
+    {
+        "key": "ctrl+shift+cmd+w",
+        "command": "workbench.action.terminal.kill",
+        "when": "!config.terminal.integrated.tabs.enabled && view == 'terminal' && config.terminal.integrated.tabs.hideCondition != 'never' || config.terminal.integrated.tabs.showActions == 'always' && view == 'terminal' && config.terminal.integrated.tabs.hideCondition != 'never' || isTerminalTabsNarrow && config.terminal.integrated.tabs.showActions == 'singleTerminalOrNarrow' && view == 'terminal' && config.terminal.integrated.tabs.hideCondition != 'never' || config.terminal.integrated.tabs.showActions == 'singleGroup' && terminalGroupCount == '1' && view == 'terminal' && config.terminal.integrated.tabs.hideCondition != 'never' || config.terminal.integrated.tabs.showActions == 'singleTerminal' && terminalGroupCount == '1' && view == 'terminal' && config.terminal.integrated.tabs.hideCondition != 'never' || config.terminal.integrated.tabs.showActions == 'singleTerminalOrNarrow' && terminalGroupCount == '1' && view == 'terminal' && config.terminal.integrated.tabs.hideCondition != 'never'"
+    },
+    {
+        "key": "cmd+l g",
+        "command": "lazygit.openLazygit"
+    },
+    {
+        "key": "cmd+g g",
+        "command": "-lazygit.openLazygit"
+    },
+    {
+        "key": "cmd+f",
+        "command": "-workbench.action.terminal.focusFind",
+        "when": "terminalFindFocused && terminalHasBeenCreated || terminalFindFocused && terminalProcessSupported || terminalFocusInAny && terminalHasBeenCreated || terminalFocusInAny && terminalProcessSupported"
+    },
+    {
+        "key": "cmd+f",
+        "command": "-actions.find",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "cmd+f",
+        "command": "-settings.action.search",
+        "when": "inSettingsEditor"
+    },
+    {
+        "key": "shift+cmd+f",
+        "command": "-workbench.action.terminal.searchWorkspace",
+        "when": "terminalFocus && terminalProcessSupported && terminalTextSelected"
+    },
+    {
+        "key": "shift+cmd+f",
+        "command": "-workbench.action.findInFiles"
+    },
+    {
+        "key": "shift+cmd+f",
+        "command": "-workbench.view.search",
+        "when": "workbench.view.search.active && neverMatch =~ /doesNotMatch/"
+    },
+    {
+        "key": "shift+enter",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "\\\r\n"
+        },
+        "when": "terminalFocus"
+    }
+]
