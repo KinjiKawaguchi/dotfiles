@@ -1,3 +1,10 @@
+---
+name: review
+description: 現在のブランチの変更をコードレビューする。正確性・セキュリティ・設計・可読性・テストの観点で確認。
+user-invocable: true
+allowed-tools: Read, Glob, Grep, Bash(git diff:*), Bash(git log:*), Bash(git show:*)
+---
+
 現在のブランチの変更をコードレビューしてください。以下の観点で確認してください:
 
 1. **正確性**: ロジックにバグや抜け漏れがないか

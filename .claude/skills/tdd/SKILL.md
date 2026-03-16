@@ -1,3 +1,9 @@
+---
+name: tdd
+description: テスト駆動開発（TDD）で実装を進める。Red→Green→Refactorサイクルを厳密に実行。
+user-invocable: true
+---
+
 テスト駆動開発（TDD）で実装を進めてください:
 
 1. **Red**: まず失敗するテストを書く
