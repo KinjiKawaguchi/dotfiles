@@ -1,25 +1,30 @@
 # ===========================================
-# Oh My Zsh (must be configured before source)
+# Homebrew (must be early for PATH availability)
 # ===========================================
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(git direnv)
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Powerlevel10k instant prompt (faster startup)
+# ===========================================
+# Powerlevel10k instant prompt (before any console output)
+# ===========================================
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# ===========================================
+# Oh My Zsh
+# ===========================================
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+plugins=(git direnv)
 source $ZSH/oh-my-zsh.sh
 
 # ===========================================
 # Environment Variables
 # ===========================================
+[[ -f ~/.secrets ]] && source ~/.secrets
+
 export LANG='ja_JP.UTF-8'
 export GPG_TTY=$(tty)
-
-# Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home -v 21)
@@ -104,3 +109,6 @@ alias vi='nvim'
 
 # Powerlevel10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"
