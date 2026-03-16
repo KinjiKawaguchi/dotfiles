@@ -42,6 +42,12 @@ link_file "$DOTFILES_DIR/.config/gh/config.yml" "$HOME/.config/gh/config.yml"
 # SSH config
 link_file "$DOTFILES_DIR/.ssh/config" "$HOME/.ssh/config"
 
+# Claude Code
+link_file "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+link_file "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
+link_file "$DOTFILES_DIR/.claude/rules" "$HOME/.claude/rules"
+link_file "$DOTFILES_DIR/.claude/commands" "$HOME/.claude/commands"
+
 # VS Code (macOS)
 if [ "$(uname)" = "Darwin" ]; then
     VSCODE_DIR="$HOME/Library/Application Support/Code/User"
