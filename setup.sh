@@ -33,6 +33,7 @@ echo "Creating symlinks..."
 link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 link_file "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
+link_file "$DOTFILES_DIR/.p10k.zsh" "$HOME/.p10k.zsh"
 
 # .config directory
 link_file "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
