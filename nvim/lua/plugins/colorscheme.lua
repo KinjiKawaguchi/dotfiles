@@ -1,10 +1,17 @@
 return {
-  { "ellisonleao/gruvbox.nvim" },
+  {
+    "olimorris/onedarkpro.nvim",
+    opts = {
+      options = {
+        transparency = true,
+      },
+    },
+  },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "onedark",
     },
   },
 }
