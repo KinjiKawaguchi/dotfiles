@@ -106,9 +106,13 @@ alias cata="find . -type f -exec cat {} +"
 alias claude="/Users/KinjiKawaguchi/.claude/local/claude"
 alias vim='nvim'
 alias vi='nvim'
+alias cd='z'
 
 # Powerlevel10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
+
+# zoxide
+eval "$(zoxide init zsh)"
