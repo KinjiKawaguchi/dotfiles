@@ -21,6 +21,7 @@ require("lazy").setup({
     -- import LazyVim extras
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.python" },
+    { import = "lazyvim.plugins.extras.lang.dart" },
     -- import/override with your plugins
     { import = "plugins" },
   },
