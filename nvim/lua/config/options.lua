@@ -8,3 +8,6 @@ vim.g.snacks_animate_scroll = false
 -- Disable spell check globally
 vim.opt.spell = false
 
+-- Auto-reload files changed by external processes
+vim.o.autoread = true
+

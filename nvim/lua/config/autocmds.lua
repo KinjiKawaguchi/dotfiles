@@ -9,3 +9,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.cmd("setlocal nospell")
   end,
 })
+
+-- Check for file changes when focus returns or cursor is idle
+vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
+  command = "checktime",
+})
