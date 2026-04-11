@@ -5,6 +5,7 @@ description: >
   PRレビュー対応、レビュー指摘の解決、レビューコメントへの対応、コードレビューの処理、
   review resolve、PR feedback対応など、レビュー対応に関するあらゆる文脈で使用する。
   ユーザーが「レビュー対応して」「PRのコメント見て」「指摘を直して」などと言った場合にトリガーする。
+user-invocable: true
 ---
 
 # Resolve Reviews
