@@ -1,6 +1,28 @@
 #!/bin/bash
 input=$(cat)
 
+OS="$(uname -s)"
+
+# Portable file mtime (epoch seconds)
+stat_mtime() {
+    if [ "$OS" = "Darwin" ]; then
+        stat -f %m "$1" 2>/dev/null
+    else
+        stat -c %Y "$1" 2>/dev/null
+    fi
+}
+
+# Portable ISO8601 → epoch seconds
+iso_to_epoch() {
+    local clean
+    clean=$(echo "$1" | cut -d. -f1 | sed -e 's/+.*//' -e 's/Z$//')
+    if [ "$OS" = "Darwin" ]; then
+        date -juf "%Y-%m-%dT%H:%M:%S" "$clean" +%s 2>/dev/null
+    else
+        date -d "${clean/T/ }" +%s 2>/dev/null
+    fi
+}
+
 # Nerd Font icons
 ICON_GITHUB=""
 ICON_BRANCH=""
@@ -59,22 +81,32 @@ USAGE_CACHE="/tmp/claude-statusline-usage.json"
 USAGE_CACHE_MAX_AGE=300
 
 fetch_usage() {
-    local acct token response
-    # Find the newest Keychain entry (handles duplicate accounts)
-    acct=$(security dump-keychain 2>/dev/null \
-        | awk '/Claude Code-credentials/{found=1} found && /acct/{print; found=0}' \
-        | sed 's/.*<blob>="\(.*\)"/\1/' \
-        | while IFS= read -r a; do
-            local exp
-            exp=$(security find-generic-password -s "Claude Code-credentials" -a "$a" -w 2>/dev/null \
-                | jq -r '.claudeAiOauth.expiresAt // 0')
-            echo "$exp $a"
-          done \
-        | sort -rn | head -1 | cut -d' ' -f2-)
-    [ -n "$acct" ] || return 1
+    local token response
 
-    token=$(security find-generic-password -s "Claude Code-credentials" -a "$acct" -w 2>/dev/null \
-        | jq -r '.claudeAiOauth.accessToken') || return 1
+    if [ "$OS" = "Darwin" ]; then
+        # macOS: pick the newest Keychain entry (handles duplicate accounts)
+        local acct
+        acct=$(security dump-keychain 2>/dev/null \
+            | awk '/Claude Code-credentials/{found=1} found && /acct/{print; found=0}' \
+            | sed 's/.*<blob>="\(.*\)"/\1/' \
+            | while IFS= read -r a; do
+                local exp
+                exp=$(security find-generic-password -s "Claude Code-credentials" -a "$a" -w 2>/dev/null \
+                    | jq -r '.claudeAiOauth.expiresAt // 0')
+                echo "$exp $a"
+              done \
+            | sort -rn | head -1 | cut -d' ' -f2-)
+        [ -n "$acct" ] || return 1
+
+        token=$(security find-generic-password -s "Claude Code-credentials" -a "$acct" -w 2>/dev/null \
+            | jq -r '.claudeAiOauth.accessToken')
+    else
+        # Linux: read from ~/.claude/.credentials.json
+        local cred_file="$HOME/.claude/.credentials.json"
+        [ -f "$cred_file" ] || return 1
+        token=$(jq -r '.claudeAiOauth.accessToken // empty' "$cred_file" 2>/dev/null)
+    fi
+
     [ -n "$token" ] && [ "$token" != "null" ] || return 1
 
     response=$(curl -sf --max-time 3 "https://api.anthropic.com/api/oauth/usage" \
@@ -85,7 +117,7 @@ fetch_usage() {
     echo "$response" > "$USAGE_CACHE"
 }
 
-if [ ! -f "$USAGE_CACHE" ] || [ $(($(date +%s) - $(stat -f %m "$USAGE_CACHE" 2>/dev/null || echo 0))) -gt $USAGE_CACHE_MAX_AGE ]; then
+if [ ! -f "$USAGE_CACHE" ] || [ $(($(date +%s) - $(stat_mtime "$USAGE_CACHE" || echo 0))) -gt $USAGE_CACHE_MAX_AGE ]; then
     fetch_usage 2>/dev/null
 fi
 
@@ -102,7 +134,7 @@ if [ -f "$USAGE_CACHE" ]; then
     # 5-hour reset label
     RESETS_5H=$(jq -r '.five_hour.resets_at // empty' "$USAGE_CACHE" 2>/dev/null)
     if [ -n "$RESETS_5H" ]; then
-        RESET_EPOCH=$(date -juf "%Y-%m-%dT%H:%M:%S" "$(echo "$RESETS_5H" | cut -d. -f1 | sed 's/+.*//')" +%s 2>/dev/null)
+        RESET_EPOCH=$(iso_to_epoch "$RESETS_5H")
         if [ -n "$RESET_EPOCH" ]; then
             NOW_EPOCH=$(date +%s)
             REMAINING_SEC=$((RESET_EPOCH - NOW_EPOCH))
@@ -117,7 +149,7 @@ if [ -f "$USAGE_CACHE" ]; then
     # 7-day reset label
     RESETS_7D=$(jq -r '.seven_day.resets_at // empty' "$USAGE_CACHE" 2>/dev/null)
     if [ -n "$RESETS_7D" ]; then
-        RESET_EPOCH=$(date -juf "%Y-%m-%dT%H:%M:%S" "$(echo "$RESETS_7D" | cut -d. -f1 | sed 's/+.*//')" +%s 2>/dev/null)
+        RESET_EPOCH=$(iso_to_epoch "$RESETS_7D")
         if [ -n "$RESET_EPOCH" ]; then
             NOW_EPOCH=$(date +%s)
             REMAINING_SEC=$((RESET_EPOCH - NOW_EPOCH))
@@ -152,7 +184,7 @@ if [ -n "$USAGE_5H" ] && [ -n "$USAGE_7D" ]; then
     [ -n "$RESET_7D_LABEL" ] && LINE4+=" ${RESET_7D_LABEL}"
 
     if [ -f "$USAGE_CACHE" ]; then
-        CACHE_AGE=$(($(date +%s) - $(stat -f %m "$USAGE_CACHE" 2>/dev/null || echo 0)))
+        CACHE_AGE=$(($(date +%s) - $(stat_mtime "$USAGE_CACHE" || echo 0)))
         CACHE_REMAINING=$(( USAGE_CACHE_MAX_AGE - CACHE_AGE ))
         [ "$CACHE_REMAINING" -lt 0 ] && CACHE_REMAINING=0
         LINE4+=" │ ↻ $((CACHE_REMAINING / 60))m"

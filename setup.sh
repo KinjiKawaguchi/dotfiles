@@ -47,7 +47,17 @@ link_file "$DOTFILES_DIR/.ssh/config" "$HOME/.ssh/config"
 link_file "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 link_file "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
 link_file "$DOTFILES_DIR/.claude/rules" "$HOME/.claude/rules"
-link_file "$DOTFILES_DIR/.claude/commands" "$HOME/.claude/commands"
+link_file "$DOTFILES_DIR/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
+link_file "$DOTFILES_DIR/.claude/hooks" "$HOME/.claude/hooks"
+
+# Claude Code skills: link each subdir individually so plugin-managed
+# skills in ~/.claude/skills (feature-sliced-design, resolve-reviews, etc.)
+# stay untouched.
+for skill_dir in "$DOTFILES_DIR"/.claude/skills/*/; do
+    [ -d "$skill_dir" ] || continue
+    skill_name=$(basename "$skill_dir")
+    link_file "$skill_dir" "$HOME/.claude/skills/$skill_name"
+done
 
 # VS Code (macOS)
 if [ "$(uname)" = "Darwin" ]; then

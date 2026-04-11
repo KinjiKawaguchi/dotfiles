@@ -11,7 +11,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Submarine.aiff & osascript -e 'display notification \"入力待ちです\" with title \"Claude Code\" sound name \"Submarine\"'"
+            "command": "~/.claude/hooks/stop-notify.sh"
           }
         ]
       }
