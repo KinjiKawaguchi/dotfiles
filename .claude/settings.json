@@ -72,5 +72,6 @@
         "@context7/mcp-server"
       ]
     }
-  }
+  },
+  "preferredNotifChannel": "iterm2"
 }
