@@ -27,48 +27,25 @@ in {
     tree
     wget
 
-    # 開発ツール
     act
-    cocoapods
     docker
     docker-compose
     git-lfs
     golangci-lint
-    gradle
-    heroku
     lazygit
     neovim
-    openapi-generator-cli
     pre-commit
-    qemu
     sshpass
     tmux
     uv
-
-    # データベース
-    pgloader
-    postgresql_18
-
-    # macOS 連携
     pinentry_mac
-
-    # ネットワーク / シリアル
-    minicom
     ookla-speedtest
-
-    # 言語 / LSP
-    buf
-    dart
     eslint
-    kotlin
     lua-language-server
     prettier
-    typescript-language-server
     prettierd
-    protobuf
+    typescript-language-server
     tailwindcss-language-server
-
-    # Nix ツール
     nil
   ];
 
