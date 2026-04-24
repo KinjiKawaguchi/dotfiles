@@ -47,6 +47,13 @@ in {
     typescript-language-server
     tailwindcss-language-server
     nil
+
+    nodejs_24
+    pnpm
+    yarn
+    markdownlint-cli
+    claude-code
+    codex
   ];
 
   # ── dotfile シンボリックリンク ────────────────────────────────
@@ -154,12 +161,7 @@ in {
       export BUN_INSTALL="$HOME/.bun"
       export PATH="$BUN_INSTALL/bin:$PATH"
 
-      # Cargo
       [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
-
-      # NVM
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
       # Google Cloud SDK
       if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
