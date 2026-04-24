@@ -36,6 +36,7 @@ in {
     neovim
     pre-commit
     tmux
+    uv
 
     # 言語 / LSP
     buf
