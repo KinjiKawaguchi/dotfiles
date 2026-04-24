@@ -133,6 +133,11 @@ in {
         source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
       fi
 
+      # Homebrew (brews で入れたツールを PATH に通す)
+      if [[ -x /opt/homebrew/bin/brew ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      fi
+
       # Powerlevel10k theme
       source "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
