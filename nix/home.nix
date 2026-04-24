@@ -63,6 +63,14 @@ in {
     ".config/karabiner/karabiner.json".source   = link ".config/karabiner/karabiner.json";
     ".config/gh/config.yml".source             = link ".config/gh/config.yml";
     ".ssh/config".source                       = link ".ssh/config";
+
+    # Claude Code (~/.claude 配下の tracked な設定)
+    ".claude/CLAUDE.md".source     = link ".claude/CLAUDE.md";
+    ".claude/settings.json".source = link ".claude/settings.json";
+    ".claude/statusline.sh".source = link ".claude/statusline.sh";
+    ".claude/hooks".source         = link ".claude/hooks";
+    ".claude/rules".source         = link ".claude/rules";
+    ".claude/skills".source        = link ".claude/skills";
   };
 
   # ── Git ───────────────────────────────────────────────────────
