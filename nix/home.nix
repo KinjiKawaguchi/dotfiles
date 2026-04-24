@@ -76,14 +76,32 @@ in {
   # ── Git ───────────────────────────────────────────────────────
   programs.git = {
     enable = true;
-    # userEmail は .secrets 等から別途設定するか、ここに書く
     settings = {
-      user.name = "KinjiKawaguchi";
-      core.editor = "nvim";
-      init.defaultBranch = "main";
+      user = {
+        name  = "KinjiKawaguchi";
+        email = "kawakin0310@icloud.com";
+        signingkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOKJoSSg4p0ozO6u8V+H0YzFYQ4lhfcVBMZGEfeGAcmy3P+o8F3Ql11JL3Lbm/8ymUco4Ln8INugbB1e5l38NoXjOZ5VPN7a9fnq34BjpKaq6NIIrU+vL6jHiXnQ6kk742FIayP7c6CdPvEnAvpCcnThgg5Ysg9/mzF8HHogvX+kfAlvRXNqEyIyXJS7XjVvF4NZOL6gCTbxB0gYubWUkQJaxUNB8+YqCqopetOujf7yuy+PRrcOSQfR7cce6TyvgDvzrBMpGkkfKhZ0lN+C7E2HFqMQBOeIEk/3JoHHqQum9mKq50Tk1V2dmPR5ppW7gNkOWPHCKAGxcYddafnQg9086eKIKv70l2tZjxl9WjqZG+cRwKRoJj27W+HhxoeOb6hHos7KZYURLICPJ5qpOVT+8D1p7cSD7L04XhJVmunY1vuD8FFibpirxm588RkunLYiYCUrMR1KmMtaA85y2qhssS+Xb/t2VhuvHWxH8kKcYjZ6s/ELfEGCk9CBdggME=";
+      };
+      core = {
+        editor = "nvim";
+        pager  = "less";
+      };
+      init.defaultBranch   = "main";
       push.autoSetupRemote = true;
-      pull.rebase = true;
-      gpg.format = "ssh";
+      pull.rebase          = true;
+      commit.gpgsign       = true;
+      gpg.format           = "ssh";
+      # 1Password の SSH 署名プログラム (macOS 固有)
+      gpg.ssh.program      = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+      filter."lfs" = {
+        clean    = "git-lfs clean -- %f";
+        smudge   = "git-lfs smudge -- %f";
+        process  = "git-lfs filter-process";
+        required = true;
+      };
+      # 空文字列で inherit した helper をリセットしてから gh を使う
+      credential."https://github.com".helper      = [ "" "!gh auth git-credential" ];
+      credential."https://gist.github.com".helper = [ "" "!gh auth git-credential" ];
     };
   };
 
@@ -105,6 +123,7 @@ in {
     sessionVariables = {
       LANG          = "ja_JP.UTF-8";
       SSH_AUTH_SOCK = "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
+      _ZO_DOCTOR    = "0";  # zoxide の初期化警告を抑制
     };
 
     initContent = ''
