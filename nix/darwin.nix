@@ -17,41 +17,17 @@
       cleanup = "zap";
       autoUpdate = true;
     };
-    taps = [
-      "dart-lang/dart"
-      "hashicorp/tap"
-      "heroku/brew"
-      "teamookla/speedtest"
-    ];
+    taps = [];
+    # Nix にないもの / darwin 非対応 / バージョンの都合で Homebrew 側に残すもの
     brews = [
-      "cabocha"
-      "cocoapods"
-      "envoy"
-      "golangci-lint"
-      "gradle"
-      "heroku/brew/heroku"
-      "mecab"
-      "mecab-ipadic"
-      "minicom"
-      "mysql"
-      "openapi-generator"
-      "pgloader"
-      "pinentry-mac"
-      "postgresql@18"
-      "pyenv"
-      "python@3.10"
-      "qemu"
-      "rye"
-      "sshpass"
-      "teamookla/speedtest/speedtest"
+      "envoy" # nixpkgs は Linux 向けのみ
+      "mysql" # nixpkgs は 8.4 LTS までで 9.x がない
     ];
     casks = [
       "1password-cli"
       "font-hack-nerd-font"
       "keycastr"
       "pgadmin4"
-      "pycharm"
-      "warp"
       "wireshark-app"
     ];
   };
