@@ -4,11 +4,6 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.primaryUser = "KinjiKawaguchi";
-  users.knownUsers = [ "KinjiKawaguchi" ];
-  users.users.KinjiKawaguchi = {
-    uid = 501;
-    home = "/Users/KinjiKawaguchi";
-  };
 
   # Homebrew 連携（cask や Nix にないパッケージ用）
   homebrew = {
