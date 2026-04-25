@@ -23,7 +23,6 @@
       "font-hack-nerd-font"
       "ghostty"
       "keycastr"
-      "line"
       "microsoft-outlook"
       "microsoft-teams"
       "pgadmin4"
