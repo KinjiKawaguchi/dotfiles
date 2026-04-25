@@ -11,6 +11,16 @@
       autoUpdate = true;
     };
     taps = [];
+    masApps = {
+      "Amphetamine" = 937984704;
+      "Kindle" = 302584613;
+      "Klack" = 6446206067;
+      "LINE" = 539883307;
+      "Magnet" = 441258766;
+      "MenubarX" = 1575588022;
+      "RunCat" = 1429033973;
+      "Xcode" = 497799835;
+    };
     # Nix にないもの / darwin 非対応 / バージョンの都合で Homebrew 側に残すもの
     brews = [
       "envoy" # nixpkgs は Linux 向けのみ
