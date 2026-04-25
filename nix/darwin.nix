@@ -20,10 +20,20 @@
     ];
     casks = [
       "1password-cli"
+      "arc"
+      "discord"
       "font-hack-nerd-font"
+      "ghostty"
       "keycastr"
+      "line"
+      "microsoft-outlook"
+      "microsoft-teams"
       "pgadmin4"
+      "setapp"
+      "slack"
+      "spotify"
       "wireshark-app"
+      "zoom"
     ];
   };
 
