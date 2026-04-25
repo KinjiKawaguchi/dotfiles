@@ -27,8 +27,52 @@
     ];
   };
 
-  # macOS システム設定
   security.pam.services.sudo_local.touchIdAuth = true;
+
+  system.defaults = {
+    dock = {
+      autohide = true;
+      orientation = "right";
+      tilesize = 40;
+      magnification = false;
+      largesize = 16;
+      mineffect = "scale";
+      show-recents = false;
+      launchanim = false;
+      wvous-br-corner = 14; # Quick Note
+    };
+
+    finder = {
+      AppleShowAllExtensions = true;
+      FXPreferredViewStyle = "Nlsv";
+      FXEnableExtensionChangeWarning = false;
+      ShowPathbar = true;
+      ShowStatusBar = true;
+    };
+
+    NSGlobalDomain = {
+      AppleInterfaceStyle = "Dark";
+      ApplePressAndHoldEnabled = false;
+      AppleShowAllExtensions = true;
+      InitialKeyRepeat = 15;
+      KeyRepeat = 2;
+      "com.apple.swipescrolldirection" = true;
+      NSDocumentSaveNewDocumentsToCloud = false;
+    };
+
+    trackpad = {
+      Clicking = true;
+      TrackpadRightClick = true;
+      TrackpadThreeFingerDrag = true;
+    };
+
+    menuExtraClock = {
+      Show24Hour = true;
+      ShowSeconds = true;
+    };
+
+    WindowManager.GloballyEnabled = false;
+  };
 
   # デフォルトシェル
   programs.zsh.enable = true;
