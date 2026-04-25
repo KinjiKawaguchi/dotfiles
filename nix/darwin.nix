@@ -54,7 +54,7 @@
       "onedrive"
       "pgadmin4"
       "raycast"
-      "riot-client"
+      "league-of-legends"
       "setapp"
       "slack"
       "spotify"
