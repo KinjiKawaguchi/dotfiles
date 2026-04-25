@@ -3,9 +3,8 @@
   nixpkgs.config.allowUnfree = true;
   system.primaryUser = username;
 
-  # Homebrew 連携（cask や Nix にないパッケージ用）
   homebrew = {
-    enable = true;
+    enable = builtins.getEnv "SKIP_BREW" != "1";
     onActivation = {
       cleanup = "zap";
       autoUpdate = true;

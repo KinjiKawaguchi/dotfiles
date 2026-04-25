@@ -1,13 +1,16 @@
 NIX  := /nix/var/nix/profiles/default/bin/nix
 FLAG := --flake $(PWD)
 
-.PHONY: help switch build check update gc rollback generations
+.PHONY: help switch switch-fast build check update gc rollback generations brew-only add-host
 
 help: ## このヘルプを表示
 	@awk 'BEGIN{FS=":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-switch: ## 設定をビルドして適用（通常使うやつ）
+switch: ## 設定をビルドして適用（Homebrew 含む）
 	sudo $(NIX) run nix-darwin#darwin-rebuild -- switch $(FLAG)
+
+switch-fast: ## Homebrew をスキップして適用
+	sudo SKIP_BREW=1 $(NIX) run nix-darwin#darwin-rebuild -- switch $(FLAG) --impure
 
 build: ## ビルドだけ（アクティベートしない）
 	$(NIX) run nix-darwin#darwin-rebuild -- build $(FLAG)
@@ -17,6 +20,9 @@ check: ## flake の評価エラーをチェック
 
 update: ## flake.lock 更新（nixpkgs 等を最新に）
 	$(NIX) flake update
+
+brew-only: ## Homebrew だけ同期（cask/brews/masApps）
+	brew bundle --file=/run/current-system/sw/etc/Brewfile
 
 gc: ## 7 日以上前の世代とストアをガベコレ
 	sudo /nix/var/nix/profiles/default/bin/nix-collect-garbage --delete-older-than 7d
@@ -28,9 +34,8 @@ rollback: ## 一個前の世代に戻す
 generations: ## システム世代一覧
 	sudo /nix/var/nix/profiles/default/bin/nix-env --list-generations --profile /nix/var/nix/profiles/system
 
-# 使い方:
-#   make add-host                                              (全自動検出)
-#   make add-host NAME=foo SYS=x86_64-darwin USER=myuser
+# make add-host                                              (全自動検出)
+# make add-host NAME=foo SYS=x86_64-darwin USER=myuser
 add-host: ## flake.nix に Mac ホストを追加（NAME, SYS, USER を省略すると自動検出）
 	@host="$${NAME:-$$(scutil --get LocalHostName 2>/dev/null || hostname -s)}"; \
 	arch="$$(uname -m)"; \
