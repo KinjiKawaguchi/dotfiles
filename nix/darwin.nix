@@ -39,7 +39,21 @@
       mineffect = "scale";
       show-recents = false;
       launchanim = false;
-      wvous-br-corner = 14; # Quick Note
+      wvous-br-corner = 14;
+      persistent-apps = [
+        "/Applications/Arc.app"
+        "/Applications/Ghostty.app"
+        "/Applications/Discord.app"
+        "/Applications/Microsoft Teams.app"
+        "/Applications/Microsoft Outlook.app"
+        "/Applications/Slack.app"
+        "/Applications/LINE.app"
+        "/System/Applications/iPhone Mirroring.app"
+        "/Applications/zoom.us.app"
+        "/Applications/Setapp/Session.app"
+        "/Applications/Setapp/Godspeed.app"
+        "/Applications/Spotify.app"
+      ];
     };
 
     finder = {
