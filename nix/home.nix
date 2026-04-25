@@ -113,6 +113,7 @@ in {
     enable = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    historySubstringSearch.enable = true;
 
     shellAliases = {
       ".."       = "cd ..";
