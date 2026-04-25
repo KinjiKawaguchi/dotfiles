@@ -1,9 +1,7 @@
-{ pkgs, ... }: {
-  # Determinate Systems installer を使用しているため nix-darwin の Nix 管理を無効化
+{ pkgs, username, ... }: {
   nix.enable = false;
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  system.primaryUser = "KinjiKawaguchi";
+  system.primaryUser = username;
 
   # Homebrew 連携（cask や Nix にないパッケージ用）
   homebrew = {

@@ -29,19 +29,20 @@ generations: ## システム世代一覧
 	sudo /nix/var/nix/profiles/default/bin/nix-env --list-generations --profile /nix/var/nix/profiles/system
 
 # 使い方:
-#   make add-host                                 (現マシンを自動検出)
-#   make add-host NAME=Kinjis-Intel  SYS=x86_64-darwin
-add-host: ## flake.nix に Mac ホストを追加（NAME, SYS を省略すると自動検出）
+#   make add-host                                              (全自動検出)
+#   make add-host NAME=foo SYS=x86_64-darwin USER=myuser
+add-host: ## flake.nix に Mac ホストを追加（NAME, SYS, USER を省略すると自動検出）
 	@host="$${NAME:-$$(scutil --get LocalHostName 2>/dev/null || hostname -s)}"; \
 	arch="$$(uname -m)"; \
 	case "$$arch" in arm64) defsys=aarch64-darwin ;; x86_64) defsys=x86_64-darwin ;; *) defsys=unknown ;; esac; \
 	sys="$${SYS:-$$defsys}"; \
+	user="$${USER:-$$(id -un)}"; \
 	if grep -q "\"$$host\" = mkDarwin" flake.nix; then \
 	  echo "host '$$host' is already in flake.nix"; \
 	  exit 0; \
 	fi; \
 	if [ "$$sys" = "unknown" ]; then echo "system unknown, pass SYS=x86_64-darwin or aarch64-darwin"; exit 1; fi; \
-	line="      \"$$host\" = mkDarwin { hostname = \"$$host\"; system = \"$$sys\"; };"; \
+	line="      \"$$host\" = mkDarwin { hostname = \"$$host\"; system = \"$$sys\"; username = \"$$user\"; };"; \
 	awk -v L="$$line" '/# NIX_HOSTS_END/ { print L } { print }' flake.nix > flake.nix.tmp && mv flake.nix.tmp flake.nix; \
-	echo "added '$$host' ($$sys) to flake.nix"; \
+	echo "added '$$host' ($$sys, user=$$user) to flake.nix"; \
 	echo "next: git add flake.nix && git commit, then run 'make switch' on the machine"

@@ -16,12 +16,9 @@
   };
 
   outputs = inputs@{ nixpkgs, nix-darwin, home-manager, ... }: let
-    username = "KinjiKawaguchi";
-
-    # マシンごとに呼び出して darwinConfiguration を生成する
-    mkDarwin = { hostname, system }: nix-darwin.lib.darwinSystem {
+    mkDarwin = { hostname, system, username }: nix-darwin.lib.darwinSystem {
       inherit system;
-      specialArgs = { inherit inputs; };
+      specialArgs = { inherit inputs username; };
       modules = [
         ./nix/darwin.nix
         home-manager.darwinModules.home-manager
@@ -38,9 +35,9 @@
       ];
     };
   in {
-    # ホスト追加は `make add-host` で自動挿入される
     darwinConfigurations = {
-      "Kinjis-Macbook-180" = mkDarwin { hostname = "Kinjis-Macbook-180"; system = "aarch64-darwin"; };
+      "Kinjis-Macbook-180" = mkDarwin { hostname = "Kinjis-Macbook-180"; system = "aarch64-darwin"; username = "KinjiKawaguchi"; };
+      "kanolabnoMacBook-Pro" = mkDarwin { hostname = "kanolabnoMacBook-Pro"; system = "aarch64-darwin"; username = "kinjikawaguchi"; };
       # NIX_HOSTS_END
     };
   };
