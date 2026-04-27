@@ -1,6 +1,6 @@
 # dotfiles
 
-macOS 環境を **Nix (nix-darwin + home-manager + flakes)** で宣言的に管理する。Nix を入れられない共用 Linux マシン等では、OS 非依存の dotfile を手動 symlink する運用も併設している（[Nix を使えない環境](#nix-を使えない環境共用-linux-等)）。
+macOS 環境を **Nix (nix-darwin + home-manager + flakes)** で宣言的に管理する。Git 設定は OS 別ファイル分割で macOS / Linux 両対応（[Git 設定の OS 別分割](#git-設定の-os-別分割)）。Nix を入れられない共用 Linux マシン等では手動 symlink で同じ dotfile を流用できる（[Nix を使えない環境](#nix-を使えない環境共用-linux-等)）。
 
 ## 構成
 
@@ -16,8 +16,12 @@ dotfiles/
 ├── nvim/              # Neovim 設定
 ├── .tmux.conf         # tmux
 ├── .p10k.zsh          # Powerlevel10k
+├── .gitconfig         # Git 共通設定 (user/lfs/gpg/commit.gpgsign 等)
+├── .gitconfig.macos   # Git: macOS 固有 (1Password ssh-sign, brew gh)
+├── .gitconfig.linux   # Git: Linux 固有 (~/.ssh/id_rsa.pub, PATH 上の gh)
 ├── .ssh/config
 └── .config/
+    ├── git/allowed_signers   # SSH 署名検証用 (OS 共通)
     ├── gh/config.yml
     └── karabiner/karabiner.json
 ```
@@ -97,7 +101,8 @@ make add-host NAME=My-MacBook SYS=x86_64-darwin USER=myuser
 | Mac App Store アプリ (LINE, Xcode, Magnet 等) | `nix/darwin.nix` の `homebrew.masApps` |
 | nixpkgs にない CLI (envoy, mysql) | `nix/darwin.nix` の `homebrew.brews` |
 | macOS 設定 (Dock, Finder, キーリピート, ダークモード等) | `nix/darwin.nix` の `system.defaults` |
-| シェル / Git / エディタ設定 | `nix/home.nix` の `programs.*` |
+| シェル設定 | `nix/home.nix` の `programs.zsh` |
+| Git 設定 | `.gitconfig` + `.gitconfig.{macos,linux}` (OS 別) + `.config/git/allowed_signers` を `nix/home.nix` の `home.file` で symlink |
 | dotfile シンボリンク (.claude, .tmux.conf, nvim 等) | `nix/home.nix` の `home.file` |
 | プロジェクト固有ツール (gradle, dart, postgres 等) | プロジェクトの `flake.nix` + direnv |
 | Setapp アプリ | Setapp クライアント（宣言的管理不可） |
@@ -105,13 +110,28 @@ make add-host NAME=My-MacBook SYS=x86_64-darwin USER=myuser
 
 `homebrew.onActivation.cleanup = "zap"` により、宣言から外したパッケージは `make switch` 時に**自動アンインストール**される。
 
+## Git 設定の OS 別分割
+
+macOS と Linux で `signingkey`、`gpg.ssh.program`、`gh` のフルパスが異なるため、共通部分と OS 固有部分をファイル分割する:
+
+```
+.gitconfig             共通設定 (user, lfs, gpg.format, allowedSignersFile, commit.gpgsign 等)
+.gitconfig.macos       macOS 固有 (1Password の op-ssh-sign パス, /opt/homebrew/bin/gh)
+.gitconfig.linux       Linux 固有 (~/.ssh/id_rsa.pub を signingkey, PATH 上の gh)
+.config/git/allowed_signers   SSH 署名検証用の信頼鍵リスト (両 OS 共通)
+~/.gitconfig.local     ホスト固有 override (個別マシンで signingkey 等を上書き; リポジトリ外)
+```
+
+`.gitconfig` は末尾で `[include] path = ~/.gitconfig.os` と `~/.gitconfig.local` を取り込む。`~/.gitconfig.os` は各マシンが OS に応じて `.gitconfig.macos` か `.gitconfig.linux` への symlink として張る。
+
+macOS では nix-darwin / home-manager が `~/.gitconfig.os` を `.gitconfig.macos` に向けて自動配置する（`nix/home.nix` の `home.file."~/.gitconfig.os".source`）。Linux では手動で symlink する（[Nix を使えない環境](#nix-を使えない環境共用-linux-等)を参照）。
+
 ## Nix を使えない環境（共用 Linux 等）
 
-root 権限が無い・他ユーザーへの影響を避けたい等の理由で Nix を入れられない UNIX マシンでは、**OS 非依存の dotfile だけを手動で symlink する**運用にする。`.gitconfig` / `.zshrc` は macOS 固有要素を含むため、各マシンで実体ファイルとして書く。
-
-### symlink 対象（OS 非依存）
+root 権限が無い・他ユーザーへの影響を避けたい等の理由で Nix を入れられない UNIX マシンでは、**dotfile を手動 symlink** することで同じ宣言を流用する。
 
 ```bash
+# 共通 dotfile
 ln -sf "$PWD/.tmux.conf"             ~/.tmux.conf
 ln -sf "$PWD/.p10k.zsh"              ~/.p10k.zsh           # zsh + p10k を使うなら
 ln -sf "$PWD/nvim"                   ~/.config/nvim
@@ -122,37 +142,25 @@ ln -sf "$PWD/.claude/hooks"          ~/.claude/hooks
 ln -sf "$PWD/.claude/rules"          ~/.claude/rules
 ln -sf "$PWD/.claude/skills"         ~/.claude/skills
 ln -sf "$PWD/.config/gh/config.yml"  ~/.config/gh/config.yml
+
+# Git (OS 別分割)
+ln -sf "$PWD/.gitconfig"                       ~/.gitconfig
+ln -sf "$PWD/.gitconfig.linux"                 ~/.gitconfig.os    # macOS なら .gitconfig.macos
+ln -sf "$PWD/.config/git/allowed_signers"      ~/.config/git/allowed_signers
 ```
 
-### `~/.gitconfig` 最小例（Linux）
-
-`gh` を credential helper にする前提。1Password での SSH 署名は macOS 固有なので除外。
+ホスト固有の signingkey 等が要る場合は `~/.gitconfig.local` を実体ファイルで作成（リポジトリ外）:
 
 ```ini
 [user]
-	name = Your Name
-	email = you@example.com
-[core]
-	editor = nvim
-	pager = less
-[init]
-	defaultBranch = main
-[push]
-	autoSetupRemote = true
-[pull]
-	rebase = true
-[credential "https://github.com"]
-	helper =
-	helper = !gh auth git-credential
-[credential "https://gist.github.com"]
-	helper =
-	helper = !gh auth git-credential
+	signingkey = ssh-rsa AAAA... your-host-key
 ```
 
 ### 注意
 
 - `make switch` は `nix-darwin#darwin-rebuild` を呼ぶため macOS 専用。Linux では使わない。
-- `.gitconfig` / `.zshrc` を repo に置き直さない。OS 固有設定を混ぜると Nix 環境と衝突するため。
+- `~/.gitconfig.local` はホスト固有なので **リポジトリにコミットしない**。
+- `.zshrc` は現状 macOS 固有要素を含む単一ファイル。Linux で動作させるには各自実体ファイルで書くか、OS 検知付きの版に置き換える（TODO）。
 
 ## マルチホスト
 

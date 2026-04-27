@@ -1,0 +1,27 @@
+[user]
+	name = KinjiKawaguchi
+	email = kawakin0310@icloud.com
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[core]
+	editor = nvim
+	pager = less
+[init]
+	defaultBranch = main
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.config/git/allowed_signers
+[commit]
+	gpgsign = true
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[include]
+	path = ~/.gitconfig.os
+[include]
+	path = ~/.gitconfig.local

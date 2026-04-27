@@ -1,0 +1,10 @@
+[user]
+	signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOKJoSSg4p0ozO6u8V+H0YzFYQ4lhfcVBMZGEfeGAcmy3P+o8F3Ql11JL3Lbm/8ymUco4Ln8INugbB1e5l38NoXjOZ5VPN7a9fnq34BjpKaq6NIIrU+vL6jHiXnQ6kk742FIayP7c6CdPvEnAvpCcnThgg5Ysg9/mzF8HHogvX+kfAlvRXNqEyIyXJS7XjVvF4NZOL6gCTbxB0gYubWUkQJaxUNB8+YqCqopetOujf7yuy+PRrcOSQfR7cce6TyvgDvzrBMpGkkfKhZ0lN+C7E2HFqMQBOeIEk/3JoHHqQum9mKq50Tk1V2dmPR5ppW7gNkOWPHCKAGxcYddafnQg9086eKIKv70l2tZjxl9WjqZG+cRwKRoJj27W+HhxoeOb6hHos7KZYURLICPJ5qpOVT+8D1p7cSD7L04XhJVmunY1vuD8FFibpirxm588RkunLYiYCUrMR1KmMtaA85y2qhssS+Xb/t2VhuvHWxH8kKcYjZ6s/ELfEGCk9CBdggME=
+[gpg "ssh"]
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
