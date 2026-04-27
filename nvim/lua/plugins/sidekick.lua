@@ -11,7 +11,7 @@ return {
         },
         tools = {
           claude = {
-            cmd = { vim.fn.expand("~/.claude/local/claude") },
+            cmd = { "claude" },
           },
         },
       },
