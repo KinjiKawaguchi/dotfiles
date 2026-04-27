@@ -42,7 +42,8 @@
     "frontend-design@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
-    "planning-with-files@planning-with-files": true
+    "planning-with-files@planning-with-files": true,
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "planning-with-files": {
@@ -50,10 +51,22 @@
         "source": "github",
         "repo": "OthmanAdi/planning-with-files"
       }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
     }
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
   "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1753962817394
   },
@@ -73,5 +86,6 @@
       ]
     }
   },
-  "preferredNotifChannel": "iterm2"
+  "preferredNotifChannel": "iterm2",
+  "agentPushNotifEnabled": true
 }
