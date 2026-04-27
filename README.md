@@ -1,6 +1,6 @@
 # dotfiles
 
-macOS 環境を **Nix (nix-darwin + home-manager + flakes)** で宣言的に管理する。
+macOS 環境を **Nix (nix-darwin + home-manager + flakes)** で宣言的に管理する。Nix を入れられない共用 Linux マシン等では、OS 非依存の dotfile を手動 symlink する運用も併設している（[Nix を使えない環境](#nix-を使えない環境共用-linux-等)）。
 
 ## 構成
 
@@ -104,6 +104,55 @@ make add-host NAME=My-MacBook SYS=x86_64-darwin USER=myuser
 | 自己更新系 (Google Cloud SDK 等) | 公式インストーラ（Nix 管理外） |
 
 `homebrew.onActivation.cleanup = "zap"` により、宣言から外したパッケージは `make switch` 時に**自動アンインストール**される。
+
+## Nix を使えない環境（共用 Linux 等）
+
+root 権限が無い・他ユーザーへの影響を避けたい等の理由で Nix を入れられない UNIX マシンでは、**OS 非依存の dotfile だけを手動で symlink する**運用にする。`.gitconfig` / `.zshrc` は macOS 固有要素を含むため、各マシンで実体ファイルとして書く。
+
+### symlink 対象（OS 非依存）
+
+```bash
+ln -sf "$PWD/.tmux.conf"             ~/.tmux.conf
+ln -sf "$PWD/.p10k.zsh"              ~/.p10k.zsh           # zsh + p10k を使うなら
+ln -sf "$PWD/nvim"                   ~/.config/nvim
+ln -sf "$PWD/.claude/CLAUDE.md"      ~/.claude/CLAUDE.md
+ln -sf "$PWD/.claude/settings.json"  ~/.claude/settings.json
+ln -sf "$PWD/.claude/statusline.sh"  ~/.claude/statusline.sh
+ln -sf "$PWD/.claude/hooks"          ~/.claude/hooks
+ln -sf "$PWD/.claude/rules"          ~/.claude/rules
+ln -sf "$PWD/.claude/skills"         ~/.claude/skills
+ln -sf "$PWD/.config/gh/config.yml"  ~/.config/gh/config.yml
+```
+
+### `~/.gitconfig` 最小例（Linux）
+
+`gh` を credential helper にする前提。1Password での SSH 署名は macOS 固有なので除外。
+
+```ini
+[user]
+	name = Your Name
+	email = you@example.com
+[core]
+	editor = nvim
+	pager = less
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+```
+
+### 注意
+
+- `make switch` は `nix-darwin#darwin-rebuild` を呼ぶため macOS 専用。Linux では使わない。
+- `.gitconfig` / `.zshrc` を repo に置き直さない。OS 固有設定を混ぜると Nix 環境と衝突するため。
 
 ## マルチホスト
 
