@@ -14,6 +14,7 @@ dotfiles/
 │   └── home.nix       # ユーザー環境 (CLI パッケージ, シェル, dotfile リンク)
 ├── .claude/           # Claude Code の設定 (hooks, rules, skills, statusline)
 ├── nvim/              # Neovim 設定
+├── .zshrc             # Zsh (OS 検知付き、oh-my-zsh + p10k 前提)
 ├── .tmux.conf         # tmux
 ├── .p10k.zsh          # Powerlevel10k
 ├── .gitconfig         # Git 共通設定 (user/lfs/gpg/commit.gpgsign 等)
@@ -101,7 +102,7 @@ make add-host NAME=My-MacBook SYS=x86_64-darwin USER=myuser
 | Mac App Store アプリ (LINE, Xcode, Magnet 等) | `nix/darwin.nix` の `homebrew.masApps` |
 | nixpkgs にない CLI (envoy, mysql) | `nix/darwin.nix` の `homebrew.brews` |
 | macOS 設定 (Dock, Finder, キーリピート, ダークモード等) | `nix/darwin.nix` の `system.defaults` |
-| シェル設定 | `nix/home.nix` の `programs.zsh` |
+| シェル設定 | `.zshrc` (OS 検知付き) を `nix/home.nix` の `home.file` で symlink |
 | Git 設定 | `.gitconfig` + `.gitconfig.{macos,linux}` (OS 別) + `.config/git/allowed_signers` を `nix/home.nix` の `home.file` で symlink |
 | dotfile シンボリンク (.claude, .tmux.conf, nvim 等) | `nix/home.nix` の `home.file` |
 | プロジェクト固有ツール (gradle, dart, postgres 等) | プロジェクトの `flake.nix` + direnv |
@@ -130,10 +131,13 @@ macOS では nix-darwin / home-manager が `~/.gitconfig.os` を `.gitconfig.mac
 
 root 権限が無い・他ユーザーへの影響を避けたい等の理由で Nix を入れられない UNIX マシンでは、**dotfile を手動 symlink** することで同じ宣言を流用する。
 
+前提として **oh-my-zsh + powerlevel10k** が `~/.oh-my-zsh` / `~/.oh-my-zsh/custom/themes/powerlevel10k` に入っている必要がある（`.zshrc` が `source $ZSH/oh-my-zsh.sh` する）。
+
 ```bash
 # 共通 dotfile
+ln -sf "$PWD/.zshrc"                 ~/.zshrc
 ln -sf "$PWD/.tmux.conf"             ~/.tmux.conf
-ln -sf "$PWD/.p10k.zsh"              ~/.p10k.zsh           # zsh + p10k を使うなら
+ln -sf "$PWD/.p10k.zsh"              ~/.p10k.zsh
 ln -sf "$PWD/nvim"                   ~/.config/nvim
 ln -sf "$PWD/.claude/CLAUDE.md"      ~/.claude/CLAUDE.md
 ln -sf "$PWD/.claude/settings.json"  ~/.claude/settings.json
@@ -160,7 +164,7 @@ ln -sf "$PWD/.config/git/allowed_signers"      ~/.config/git/allowed_signers
 
 - `make switch` は `nix-darwin#darwin-rebuild` を呼ぶため macOS 専用。Linux では使わない。
 - `~/.gitconfig.local` はホスト固有なので **リポジトリにコミットしない**。
-- `.zshrc` は現状 macOS 固有要素を含む単一ファイル。Linux で動作させるには各自実体ファイルで書くか、OS 検知付きの版に置き換える（TODO）。
+- `.zshrc` は `case "$(uname -s)"` で macOS / Linux を分岐する。1Password SSH agent / Java / Python パス / Homebrew 位置 (`/opt/homebrew` vs `/home/linuxbrew`) はそれぞれの分岐内で設定するため、新しい OS 固有要素を足すときも分岐を増やすこと。
 
 ## マルチホスト
 

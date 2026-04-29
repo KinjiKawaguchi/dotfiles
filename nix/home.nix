@@ -55,12 +55,20 @@ in {
     markdownlint-cli
     claude-code
     codex
+
+    # Shell (programs.zsh は使わず .zshrc を symlink するため、ツールだけ提供)
+    zsh
+    fzf
+    zoxide
+    direnv
+    nix-direnv
   ];
 
   # ── dotfile シンボリックリンク ────────────────────────────────
   # mkOutOfStoreSymlink: Nix ストアを経由せず直接リンクするため
   # rebuild なしで設定ファイルの編集が即反映される
   home.file = {
+    ".zshrc".source                            = link ".zshrc";
     ".tmux.conf".source                        = link ".tmux.conf";
     ".p10k.zsh".source                         = link ".p10k.zsh";
     ".config/nvim".source                      = link "nvim";
@@ -82,84 +90,7 @@ in {
     ".claude/skills".source        = link ".claude/skills";
   };
 
-  # ── Zsh ──────────────────────────────────────────────────────
-  programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    historySubstringSearch.enable = true;
-
-    shellAliases = {
-      ".."       = "cd ..";
-      activate   = ". .venv/bin/activate";
-      lg         = "lazygit";
-      vim        = "nvim";
-      vi         = "nvim";
-      cd         = "z";
-    };
-
-    sessionVariables = {
-      LANG          = "ja_JP.UTF-8";
-      SSH_AUTH_SOCK = "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
-      _ZO_DOCTOR    = "0";  # zoxide の初期化警告を抑制
-    };
-
-    initContent = ''
-      # Powerlevel10k instant prompt
-      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      fi
-
-      # Homebrew (brews で入れたツールを PATH に通す)
-      if [[ -x /opt/homebrew/bin/brew ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-      fi
-
-      # Powerlevel10k theme
-      source "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
-      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-      # シェル展開が必要な環境変数
-      export GPG_TTY="$(tty)"
-
-      # Secrets
-      [[ -f ~/.secrets ]] && source ~/.secrets
-
-      # Java
-      export JAVA_HOME=$(/usr/libexec/java_home -v 21 2>/dev/null)
-      [[ -n "$JAVA_HOME" ]] && export PATH="$JAVA_HOME/bin:$PATH"
-
-      # Go
-      export PATH="$PATH:$HOME/go/bin"
-
-      # Bun
-      export BUN_INSTALL="$HOME/.bun"
-      export PATH="$BUN_INSTALL/bin:$PATH"
-
-      [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
-
-      # Google Cloud SDK
-      if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
-        source "$HOME/google-cloud-sdk/path.zsh.inc"
-      fi
-    '';
-  };
-
-  # ── direnv ────────────────────────────────────────────────────
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  # ── fzf ───────────────────────────────────────────────────────
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
-  # ── zoxide ────────────────────────────────────────────────────
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+  # zsh / oh-my-zsh / powerlevel10k / fzf / zoxide / direnv は home.file で
+  # 管理する .zshrc から直接読み込む。programs.zsh / programs.fzf 等は使わない
+  # （これらは home-manager が ~/.zshrc を生成してしまい symlink と競合するため）。
 }
