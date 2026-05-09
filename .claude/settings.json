@@ -4,6 +4,9 @@
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",
     "CLAUDE_CODE_SUBAGENT_MODEL": "haiku"
   },
+  "permissions": {
+    "defaultMode": "auto"
+  },
   "hooks": {
     "Stop": [
       {
@@ -67,6 +70,7 @@
     "mode": "hold"
   },
   "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
   "theme": "dark",
   "editorMode": "normal",
   "preferredNotifChannel": "iterm2",
