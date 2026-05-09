@@ -9,5 +9,9 @@ return {
         },
       },
     },
+    indent = {
+      scope = { enabled = false },
+      chunk = { enabled = false },
+    },
   },
 }
