@@ -55,6 +55,7 @@ in {
     markdownlint-cli
     claude-code
     codex
+    terraform
 
     # Shell (programs.zsh は使わず .zshrc を symlink するため、ツールだけ提供)
     zsh
