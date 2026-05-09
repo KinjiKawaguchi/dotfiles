@@ -24,6 +24,7 @@
     brews = [
       "envoy" # nixpkgs は Linux 向けのみ
       "mysql" # nixpkgs は 8.4 LTS までで 9.x がない
+      "newrelic-cli"
     ];
     casks = [
       "1password"
