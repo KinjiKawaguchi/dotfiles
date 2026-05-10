@@ -5,6 +5,9 @@
 -- Disable scroll animation
 vim.g.snacks_animate_scroll = false
 
+-- ファイル検索などのルートは常に起動時 cwd を使う（LSP root に引きずられない）
+vim.g.root_spec = { "cwd" }
+
 -- Disable spell check globally
 vim.opt.spell = false
 
