@@ -53,6 +53,7 @@ in {
     pnpm
     yarn
     markdownlint-cli
+    marp-cli
     claude-code
     codex
     terraform
