@@ -31,7 +31,7 @@
       "1password-cli"
       "arc"
       "discord"
-      "docker"
+      "docker-desktop"
       "eqmac"
       "font-hack-nerd-font"
       "ghostty"
