@@ -49,7 +49,8 @@
     "skill-creator@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
     "planning-with-files@planning-with-files": true,
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "tmux-agent-sidebar@hiroppy": true
   },
   "extraKnownMarketplaces": {
     "planning-with-files": {
@@ -62,6 +63,12 @@
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "hiroppy": {
+      "source": {
+        "source": "directory",
+        "path": "/home/kkawaguchi/.tmux/plugins/tmux-agent-sidebar"
       }
     }
   },
