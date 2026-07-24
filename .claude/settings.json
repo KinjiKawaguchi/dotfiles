@@ -90,21 +90,5 @@
   "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1753962817394
-  },
-  "mcpServers": {
-    "github": {
-      "command": "sh",
-      "args": [
-        "-c",
-        "GITHUB_PERSONAL_ACCESS_TOKEN=$(gh auth token) npx -y @modelcontextprotocol/server-github"
-      ]
-    },
-    "context7": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@context7/mcp-server"
-      ]
-    }
   }
 }

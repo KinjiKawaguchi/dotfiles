@@ -166,6 +166,30 @@ ln -sf "$PWD/.config/git/allowed_signers"      ~/.config/git/allowed_signers
 - `~/.gitconfig.local` はホスト固有なので **リポジトリにコミットしない**。
 - `.zshrc` は `case "$(uname -s)"` で macOS / Linux を分岐する。1Password SSH agent / Java / Python パス / Homebrew 位置 (`/opt/homebrew` vs `/home/linuxbrew`) はそれぞれの分岐内で設定するため、新しい OS 固有要素を足すときも分岐を増やすこと。
 
+## MCP サーバー (Claude Code)
+
+`.claude/settings.json` の `mcpServers` キーは Claude Code 2.x では読まれない（過去バージョンの名残）。MCP サーバーは `claude mcp add -s user` で登録する方式に変更した。この登録先は `~/.claude.json` で、dotfiles の symlink 管理外（**ホスト固有・git 非管理**）のため、新しいマシンではこのセクションのコマンドを手動で再実行する必要がある。
+
+```bash
+# GitHub（gh CLI のトークンを都度動的取得。トークン自体はファイルに書かない）
+claude mcp add github -s user -- sh -c "GITHUB_PERSONAL_ACCESS_TOKEN=\$(gh auth token) npx -y @modelcontextprotocol/server-github"
+
+# Context7
+claude mcp add context7 -s user -- npx -y @upstash/context7-mcp
+
+# Slack（bot token は 1Password 経由で動的取得。事前に op CLI のセットアップと
+# Service Account トークンを ~/.secrets への export が必要）
+claude mcp add slack -s user -- sh -c "SLACK_MCP_XOXB_TOKEN=\$(op read 'op://claude-mcp/Slack MCP Bot Token/credential') SLACK_MCP_ADD_MESSAGE_TOOL=true npx -y slack-mcp-server@latest --transport stdio"
+```
+
+Slack用の1Password側の前提:
+
+- `claude-mcp` という専用 Vault に `Slack MCP Bot Token`（category: API Credential, field: `credential`）を保存
+- 1Password の Service Account（`claude-mcp` Vaultへの `read_items` のみ）を発行し、`~/.secrets` に `export OP_SERVICE_ACCOUNT_TOKEN="ops_..."` を追記（`~/.secrets` は600権限・git非管理）
+- Nix が使えない環境（[Nix を使えない環境](#nix-を使えない環境共用-linux-等)参照）では `op` CLI 本体も root 権限なしで `~/.local/bin` に手動配置する
+
+登録状態の確認: `claude mcp list`
+
 ## マルチホスト
 
 `flake.nix` の `mkDarwin` で hostname, system, username をホストごとに定義:
