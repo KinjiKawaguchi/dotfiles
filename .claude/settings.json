@@ -9,7 +9,7 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "opusplan",
+  "model": "sonnet",
   "hooks": {
     "Stop": [
       {
