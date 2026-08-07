@@ -16,3 +16,6 @@ vim.keymap.del("v", "<A-k>")
 
 -- Ctrl+a to select all
 vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select all" })
+
+-- 折り返し表示中に $ を押すと論理行末へ飛んでしまうのを防ぎ、画面上の行末へ移動する
+vim.keymap.set({ "n", "x" }, "$", "g$", { desc = "画面表示上の行末へ移動" })
