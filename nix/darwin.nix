@@ -29,7 +29,6 @@
     casks = [
       "1password"
       "1password-cli"
-      "arc"
       "discord"
       "docker-desktop"
       "eqmac"
@@ -51,6 +50,7 @@
       "setapp"
       "slack"
       "spotify"
+      "thebrowsercompany-dia"
       "visual-studio-code"
       "wireshark-app"
       "zoom"
@@ -71,7 +71,7 @@
       launchanim = false;
       wvous-br-corner = 14;
       persistent-apps = [
-        "/Applications/Arc.app"
+        "/Applications/Dia.app"
         "/Applications/Ghostty.app"
         "/Applications/Discord.app"
         "/Applications/Microsoft Teams.app"
