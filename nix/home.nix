@@ -48,6 +48,7 @@ in {
     typescript-language-server
     tailwindcss-language-server
     nil
+    macism
 
     nodejs_24
     pnpm
