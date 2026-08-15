@@ -88,8 +88,22 @@ fi
 # ===========================================
 if [ -d "$HOME/.nvm" ]; then
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+  # 最新バージョンの bin を直接 PATH に通す。nvm.sh の読み込みは
+  # `nvm` コマンドを実際に使うときまで遅延させる（読み込みに約1秒かかるため）
+  _nvm_bin=("$NVM_DIR"/versions/node/*/bin(N/nOn))
+  [ -n "$_nvm_bin[1]" ] && export PATH="$_nvm_bin[1]:$PATH"
+  unset _nvm_bin
+
+  if [ -s "$NVM_DIR/nvm.sh" ]; then
+    nvm() {
+      unset -f nvm
+      # --no-use: 読み込み時のバージョン自動解決を抑止する
+      \. "$NVM_DIR/nvm.sh" --no-use
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+      nvm "$@"
+    }
+  fi
 fi
 
 # ===========================================
