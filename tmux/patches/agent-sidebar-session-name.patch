@@ -1,0 +1,16 @@
+diff --git a/src/state/refresh.rs b/src/state/refresh.rs
+index 4066e26..2517b6a 100644
+--- a/src/state/refresh.rs
++++ b/src/state/refresh.rs
+@@ -159,10 +159,7 @@ impl AppState {
+         } else {
+             self.apply_session_snapshot(focused, sessions);
+         }
+-        if self.sessions.dirty {
+-            self.refresh_session_names();
+-            self.sessions.dirty = false;
+-        }
++        self.refresh_session_names();
+         self.refresh_activity_data();
+         window_active
+     }
