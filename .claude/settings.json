@@ -3,13 +3,12 @@
     "MAX_THINKING_TOKENS": "10000",
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",
     "CLAUDE_CODE_SUBAGENT_MODEL": "haiku",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5[1m]",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5[1m]"
   },
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "sonnet",
+  "model": "opus[1m]",
   "hooks": {
     "Stop": [
       {
@@ -90,5 +89,6 @@
   "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1753962817394
-  }
+  },
+  "crossSessionInbound": "accept"
 }
