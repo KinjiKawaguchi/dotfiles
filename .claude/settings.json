@@ -1,9 +1,6 @@
 {
   "env": {
-    "MAX_THINKING_TOKENS": "10000",
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "haiku",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5[1m]"
+    "MAX_THINKING_TOKENS": "10000"
   },
   "permissions": {
     "defaultMode": "auto"
@@ -82,7 +79,8 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "editorMode": "normal",
-  "preferredNotifChannel": "iterm2",
+  "preferredNotifChannel": "ghostty",
+  "autoCompactEnabled": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
