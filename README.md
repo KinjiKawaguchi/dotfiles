@@ -176,19 +176,20 @@ claude mcp add github -s user -- sh -c "GITHUB_PERSONAL_ACCESS_TOKEN=\$(gh auth 
 
 # Context7
 claude mcp add context7 -s user -- npx -y @upstash/context7-mcp
-
-# Slack（bot token は 1Password 経由で動的取得。事前に op CLI のセットアップと
-# Service Account トークンを ~/.secrets への export が必要）
-claude mcp add slack -s user -- sh -c "SLACK_MCP_XOXB_TOKEN=\$(op read 'op://claude-mcp/Slack MCP Bot Token/credential') SLACK_MCP_ADD_MESSAGE_TOOL=true npx -y slack-mcp-server@latest --transport stdio"
 ```
 
-Slack用の1Password側の前提:
-
-- `claude-mcp` という専用 Vault に `Slack MCP Bot Token`（category: API Credential, field: `credential`）を保存
-- 1Password の Service Account（`claude-mcp` Vaultへの `read_items` のみ）を発行し、`~/.secrets` に `export OP_SERVICE_ACCOUNT_TOKEN="ops_..."` を追記（`~/.secrets` は600権限・git非管理）
-- Nix が使えない環境（[Nix を使えない環境](#nix-を使えない環境共用-linux-等)参照）では `op` CLI 本体も root 権限なしで `~/.local/bin` に手動配置する
-
 登録状態の確認: `claude mcp list`
+
+## Slack (Codex Plugin)
+
+Slack は bot token を渡すローカル MCP ではなく、OpenAI Curated の公式プラグインを使用する。
+
+1. `codex` を起動して `/plugins` を開く
+2. OpenAI Curated の `Slack` をインストールする
+3. 表示された ChatGPT のアプリ画面で Slack を認証する
+4. 新しい Codex セッションを開始する
+
+旧 MCP が残っている場合は `codex mcp remove slack` で削除する。
 
 ## マルチホスト
 
