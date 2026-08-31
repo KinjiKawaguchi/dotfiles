@@ -91,6 +91,9 @@ in {
     ".claude/hooks".source         = link ".claude/hooks";
     ".claude/rules".source         = link ".claude/rules";
     ".claude/skills".source        = link ".claude/skills";
+
+    # 外部スキルの台帳 (実体は skills CLI が ~/.agents/skills に展開する)
+    ".agents/.skill-lock.json".source = link ".agents/.skill-lock.json";
   };
 
   # zsh / oh-my-zsh / powerlevel10k / fzf / zoxide / direnv は home.file で

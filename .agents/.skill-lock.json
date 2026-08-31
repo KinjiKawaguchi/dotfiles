@@ -1,0 +1,77 @@
+{
+  "version": 3,
+  "skills": {
+    "gh-stack": {
+      "source": "github/gh-stack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-stack.git",
+      "skillPath": "skills/gh-stack/SKILL.md",
+      "skillFolderHash": "f900e01d90dd042162d0632dc31ee9541dd07841",
+      "installedAt": "2026-04-13T21:17:02.470Z",
+      "updatedAt": "2026-04-13T21:17:02.470Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-04-13T21:17:06.811Z",
+      "updatedAt": "2026-04-13T21:17:06.811Z"
+    },
+    "feature-sliced-design": {
+      "source": "feature-sliced/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/feature-sliced/skills.git",
+      "skillPath": "feature-sliced-design/SKILL.md",
+      "skillFolderHash": "933d42ace477477a5c4cd15e799eec0f61bb1e66",
+      "installedAt": "2026-05-25T01:43:29.626Z",
+      "updatedAt": "2026-05-25T01:43:29.626Z"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/shadcn/ui.git",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "skillFolderHash": "a8404703769866faf15bee897c9ae6e252ac2d35",
+      "installedAt": "2026-05-26T07:46:34.102Z",
+      "updatedAt": "2026-05-26T07:46:34.102Z"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
+      "installedAt": "2026-07-15T05:09:07.637Z",
+      "updatedAt": "2026-07-15T05:09:07.637Z"
+    },
+    "typescript-react-reviewer": {
+      "source": "dotneet/claude-code-marketplace",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dotneet/claude-code-marketplace.git",
+      "skillPath": "review-tool/skills/typescript-react-reviewer/SKILL.md",
+      "skillFolderHash": "c42f66f381de0fa465b7e2dbc52e8e8f5ecca495",
+      "installedAt": "2026-07-15T05:09:11.584Z",
+      "updatedAt": "2026-07-15T05:09:11.584Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "dexto",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp"
+  ]
+}
