@@ -64,14 +64,14 @@
     "hiroppy": {
       "source": {
         "source": "directory",
-        "path": "/home/kkawaguchi/.tmux/plugins/tmux-agent-sidebar"
+        "path": "/Users/KinjiKawaguchi/.tmux/plugins/tmux-agent-sidebar"
       }
     }
   },
   "language": "日本語",
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
-  "tui": "fullscreen",
+  "tui": "default",
   "voice": {
     "enabled": true,
     "mode": "hold"
@@ -81,12 +81,12 @@
   "editorMode": "normal",
   "preferredNotifChannel": "ghostty",
   "autoCompactEnabled": true,
+  "crossSessionInbound": "accept",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1753962817394
-  },
-  "crossSessionInbound": "accept"
+  }
 }
