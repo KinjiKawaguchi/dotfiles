@@ -11,7 +11,9 @@ dotfiles/
 ├── Makefile           # 日常操作のショートカット
 ├── nix/
 │   ├── darwin.nix     # macOS システム設定 (Homebrew, Dock, Finder, Touch ID 等)
-│   └── home.nix       # ユーザー環境 (CLI パッケージ, シェル, dotfile リンク)
+│   ├── home.nix       # ユーザー環境 (CLI パッケージ, シェル, dotfile リンク)
+│   └── profiles/
+│       └── personal.nix  # 個人 PC だけに入れるアプリと Dock 項目
 ├── .claude/           # Claude Code の設定 (hooks, rules, skills, statusline)
 ├── nvim/              # Neovim 設定
 ├── .zshrc             # Zsh (OS 検知付き、oh-my-zsh + p10k 前提)
@@ -100,6 +102,7 @@ make add-host NAME=My-MacBook SYS=x86_64-darwin USER=myuser
 | CLI ツール (bat, fd, ripgrep, nvim, tmux, uv, node 等) | `nix/home.nix` の `home.packages` |
 | GUI アプリ (Chrome, Slack, Ghostty 等) | `nix/darwin.nix` の `homebrew.casks` |
 | Mac App Store アプリ (Xcode, Amphetamine 等) | `nix/darwin.nix` の `homebrew.masApps` |
+| 個人 PC だけに入れるアプリ (Discord, LINE, Spotify 等) | `nix/profiles/personal.nix`（[マルチホスト](#マルチホスト)を参照） |
 | nixpkgs にない CLI (envoy, mysql) | `nix/darwin.nix` の `homebrew.brews` |
 | macOS 設定 (Dock, Finder, キーリピート, ダークモード等) | `nix/darwin.nix` の `system.defaults` |
 | シェル設定 | `.zshrc` (OS 検知付き) を `nix/home.nix` の `home.file` で symlink |
@@ -202,6 +205,18 @@ darwinConfigurations = {
 ```
 
 `make add-host` で現マシンの情報を自動検出して追加できる。
+
+### プロファイル
+
+`profiles` を省略したホストには `nix/darwin.nix` の共通分だけが入る。特定の用途のマシンにだけ入れたいアプリは `nix/profiles/` 以下のモジュールにまとめ、`profiles` で渡す:
+
+```nix
+"My-MacBook" = mkDarwin { hostname = "My-MacBook"; system = "aarch64-darwin"; username = "myuser"; profiles = [ ./nix/profiles/personal.nix ]; };
+```
+
+プロファイル内の `homebrew.casks` や `system.defaults.dock.persistent-apps` などのリストは共通定義に連結され、Dock では共通分の後ろに並ぶ。
+
+`cleanup = "zap"` のため、ホストからプロファイルを外すと、そのプロファイルのアプリは次の `make switch` でデータごとアンインストールされる。
 
 ## トラブルシュート
 
