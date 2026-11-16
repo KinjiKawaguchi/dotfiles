@@ -174,14 +174,13 @@ ln -sf "$PWD/.config/git/allowed_signers"      ~/.config/git/allowed_signers
 `.claude/settings.json` の `mcpServers` キーは Claude Code 2.x では読まれない（過去バージョンの名残）。MCP サーバーは `claude mcp add -s user` で登録する方式に変更した。この登録先は `~/.claude.json` で、dotfiles の symlink 管理外（**ホスト固有・git 非管理**）のため、新しいマシンではこのセクションのコマンドを手動で再実行する必要がある。
 
 ```bash
-# GitHub（gh CLI のトークンを都度動的取得。トークン自体はファイルに書かない）
-claude mcp add github -s user -- sh -c "GITHUB_PERSONAL_ACCESS_TOKEN=\$(gh auth token) npx -y @modelcontextprotocol/server-github"
-
 # Context7
 claude mcp add context7 -s user -- npx -y @upstash/context7-mcp
 ```
 
 登録状態の確認: `claude mcp list`
+
+GitHub の操作は MCP を使わず `gh` CLI で行う。参照実装の `@modelcontextprotocol/server-github` はアーカイブ済みで保守されておらず、GitHub のトークンを渡すには不適切なため登録しない。
 
 ## Slack (Codex Plugin)
 
