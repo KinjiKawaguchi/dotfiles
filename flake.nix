@@ -39,6 +39,7 @@
     darwinConfigurations = {
       "Kinjis-Macbook-180" = mkDarwin { hostname = "Kinjis-Macbook-180"; system = "aarch64-darwin"; username = "KinjiKawaguchi"; profiles = [ ./nix/profiles/personal.nix ]; };
       "kanolabnoMacBook-Pro" = mkDarwin { hostname = "kanolabnoMacBook-Pro"; system = "aarch64-darwin"; username = "kinjikawaguchi"; };
+      "DF0WHKC4G3" = mkDarwin { hostname = "DF0WHKC4G3"; system = "aarch64-darwin"; username = "kinji.kawaguchi.002"; };
       # NIX_HOSTS_END
     };
   };
