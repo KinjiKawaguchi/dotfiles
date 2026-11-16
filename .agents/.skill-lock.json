@@ -19,15 +19,6 @@
       "installedAt": "2026-04-13T21:17:06.811Z",
       "updatedAt": "2026-04-13T21:17:06.811Z"
     },
-    "feature-sliced-design": {
-      "source": "feature-sliced/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/feature-sliced/skills.git",
-      "skillPath": "feature-sliced-design/SKILL.md",
-      "skillFolderHash": "933d42ace477477a5c4cd15e799eec0f61bb1e66",
-      "installedAt": "2026-05-25T01:43:29.626Z",
-      "updatedAt": "2026-05-25T01:43:29.626Z"
-    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
@@ -45,15 +36,6 @@
       "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
       "installedAt": "2026-07-15T05:09:07.637Z",
       "updatedAt": "2026-07-15T05:09:07.637Z"
-    },
-    "typescript-react-reviewer": {
-      "source": "dotneet/claude-code-marketplace",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/dotneet/claude-code-marketplace.git",
-      "skillPath": "review-tool/skills/typescript-react-reviewer/SKILL.md",
-      "skillFolderHash": "c42f66f381de0fa465b7e2dbc52e8e8f5ecca495",
-      "installedAt": "2026-07-15T05:09:11.584Z",
-      "updatedAt": "2026-07-15T05:09:11.584Z"
     }
   },
   "dismissed": {
