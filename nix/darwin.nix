@@ -12,11 +12,6 @@
     taps = [];
     masApps = {
       "Amphetamine" = 937984704;
-      "Kindle" = 302584613;
-      "Klack" = 6446206067;
-      "LINE" = 539883307;
-      "MenubarX" = 1575588022;
-      "RunCat" = 1429033973;
       "Xcode" = 497799835;
     };
     # Nix にないもの / darwin 非対応 / バージョンの都合で Homebrew 側に残すもの
@@ -27,8 +22,6 @@
     casks = [
       "1password"
       "1password-cli"
-      "discord"
-      "docker-desktop"
       "font-hack-nerd-font"
       "ghostty"
       "google-chrome"
@@ -37,16 +30,12 @@
       "karabiner-elements"
       "keycastr"
       "microsoft-excel"
-      "microsoft-outlook"
       "microsoft-powerpoint"
-      "microsoft-teams"
       "microsoft-word"
-      "onedrive"
       "pgadmin4"
       "raycast"
       "setapp"
       "slack"
-      "spotify"
       "zoom"
     ];
   };
@@ -64,18 +53,14 @@
       show-recents = false;
       launchanim = false;
       wvous-br-corner = 14;
+      # nix/profiles/*.nix の項目は mkAfter でこの後ろに並べる
       persistent-apps = [
         "/Applications/Ghostty.app"
-        "/Applications/Discord.app"
-        "/Applications/Microsoft Teams.app"
-        "/Applications/Microsoft Outlook.app"
         "/Applications/Slack.app"
-        "/Applications/LINE.app"
         "/System/Applications/iPhone Mirroring.app"
         "/Applications/zoom.us.app"
         "/Applications/Setapp/Session.app"
         "/Applications/Setapp/Godspeed.app"
-        "/Applications/Spotify.app"
       ];
     };
 

@@ -16,7 +16,8 @@
   };
 
   outputs = inputs@{ nixpkgs, nix-darwin, home-manager, ... }: let
-    mkDarwin = { hostname, system, username }: nix-darwin.lib.darwinSystem {
+    # profiles: nix/profiles/*.nix のうち、このホストに追加で適用するもの
+    mkDarwin = { hostname, system, username, profiles ? [ ] }: nix-darwin.lib.darwinSystem {
       inherit system;
       specialArgs = { inherit inputs username; };
       modules = [
@@ -32,11 +33,11 @@
           users.users.${username}.home = "/Users/${username}";
           networking.hostName = hostname;
         }
-      ];
+      ] ++ profiles;
     };
   in {
     darwinConfigurations = {
-      "Kinjis-Macbook-180" = mkDarwin { hostname = "Kinjis-Macbook-180"; system = "aarch64-darwin"; username = "KinjiKawaguchi"; };
+      "Kinjis-Macbook-180" = mkDarwin { hostname = "Kinjis-Macbook-180"; system = "aarch64-darwin"; username = "KinjiKawaguchi"; profiles = [ ./nix/profiles/personal.nix ]; };
       "kanolabnoMacBook-Pro" = mkDarwin { hostname = "kanolabnoMacBook-Pro"; system = "aarch64-darwin"; username = "kinjikawaguchi"; };
       # NIX_HOSTS_END
     };
