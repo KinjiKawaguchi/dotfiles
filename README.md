@@ -98,8 +98,8 @@ make add-host NAME=My-MacBook SYS=x86_64-darwin USER=myuser
 | 対象 | 管理場所 |
 |------|---------|
 | CLI ツール (bat, fd, ripgrep, nvim, tmux, uv, node 等) | `nix/home.nix` の `home.packages` |
-| GUI アプリ (Arc, Chrome, Slack, Discord, VS Code 等) | `nix/darwin.nix` の `homebrew.casks` |
-| Mac App Store アプリ (LINE, Xcode, Magnet 等) | `nix/darwin.nix` の `homebrew.masApps` |
+| GUI アプリ (Chrome, Slack, Ghostty 等) | `nix/darwin.nix` の `homebrew.casks` |
+| Mac App Store アプリ (Xcode, Amphetamine 等) | `nix/darwin.nix` の `homebrew.masApps` |
 | nixpkgs にない CLI (envoy, mysql) | `nix/darwin.nix` の `homebrew.brews` |
 | macOS 設定 (Dock, Finder, キーリピート, ダークモード等) | `nix/darwin.nix` の `system.defaults` |
 | シェル設定 | `.zshrc` (OS 検知付き) を `nix/home.nix` の `home.file` で symlink |

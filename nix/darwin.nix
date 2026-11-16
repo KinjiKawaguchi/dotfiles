@@ -15,7 +15,6 @@
       "Kindle" = 302584613;
       "Klack" = 6446206067;
       "LINE" = 539883307;
-      "Magnet" = 441258766;
       "MenubarX" = 1575588022;
       "RunCat" = 1429033973;
       "Xcode" = 497799835;
@@ -24,14 +23,12 @@
     brews = [
       "envoy" # nixpkgs は Linux 向けのみ
       "mysql" # nixpkgs は 8.4 LTS までで 9.x がない
-      "newrelic-cli"
     ];
     casks = [
       "1password"
       "1password-cli"
       "discord"
       "docker-desktop"
-      "eqmac"
       "font-hack-nerd-font"
       "ghostty"
       "google-chrome"
@@ -50,9 +47,6 @@
       "setapp"
       "slack"
       "spotify"
-      "thebrowsercompany-dia"
-      "visual-studio-code"
-      "wireshark-app"
       "zoom"
     ];
   };
@@ -71,7 +65,6 @@
       launchanim = false;
       wvous-br-corner = 14;
       persistent-apps = [
-        "/Applications/Dia.app"
         "/Applications/Ghostty.app"
         "/Applications/Discord.app"
         "/Applications/Microsoft Teams.app"
